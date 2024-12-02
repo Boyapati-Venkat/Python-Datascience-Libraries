@@ -287,3 +287,229 @@ Numeric and Boolean Columns:
 | Handles Data Types   | Not directly. Must pre-filter.         | Filters columns directly by type.         |
 | Common Use Case      | Reshaping for analysis or visualization. | Cleaning data by selecting specific types.|
 
+
+
+The `.astype()` method in the pandas library is used to cast a pandas object (such as a Series or DataFrame) to a specified data type. It is often used to convert data types for efficient processing or to ensure compatibility with specific operations.
+
+Here’s an overview with examples:
+
+---
+
+### 1. **Basic Usage**
+Convert a column or Series to a specific data type.
+
+```python
+import pandas as pd
+
+data = {'A': ['1', '2', '3'], 'B': [0.5, 1.5, 2.5]}
+df = pd.DataFrame(data)
+
+# Convert column 'A' to integer
+df['A'] = df['A'].astype(int)
+
+print(df)
+print(df.dtypes)
+```
+
+**Output:**
+```
+   A    B
+0  1  0.5
+1  2  1.5
+2  3  2.5
+A    int64
+B    float64
+dtype: object
+```
+
+---
+
+### 2. **Convert to String**
+Convert numerical columns to strings.
+
+```python
+df['B'] = df['B'].astype(str)
+print(df)
+print(df.dtypes)
+```
+
+**Output:**
+```
+   A    B
+0  1  0.5
+1  2  1.5
+2  3  2.5
+A     int64
+B    object
+dtype: object
+```
+
+---
+
+### 3. **Convert to Float**
+Convert a column to a float type.
+
+```python
+data = {'A': ['1', '2', '3']}
+df = pd.DataFrame(data)
+
+# Convert to float
+df['A'] = df['A'].astype(float)
+
+print(df)
+print(df.dtypes)
+```
+
+**Output:**
+```
+     A
+0  1.0
+1  2.0
+2  3.0
+A    float64
+dtype: object
+```
+
+---
+
+### 4. **Convert to Categorical**
+Converting columns to categorical type to save memory and speed up operations.
+
+```python
+data = {'A': ['low', 'medium', 'high']}
+df = pd.DataFrame(data)
+
+# Convert to categorical
+df['A'] = df['A'].astype('category')
+
+print(df)
+print(df.dtypes)
+```
+
+**Output:**
+```
+        A
+0     low
+1  medium
+2    high
+A    category
+dtype: object
+```
+
+---
+
+### 5. **Convert with Multiple Types in DataFrame**
+Convert specific columns to specific data types.
+
+```python
+data = {'A': ['1', '2', '3'], 'B': [0.5, 1.5, 2.5]}
+df = pd.DataFrame(data)
+
+# Convert multiple columns
+df = df.astype({'A': 'int', 'B': 'float'})
+
+print(df)
+print(df.dtypes)
+```
+
+**Output:**
+```
+   A    B
+0  1  0.5
+1  2  1.5
+2  3  2.5
+A      int64
+B    float64
+dtype: object
+```
+
+---
+
+### 6. **Handling Invalid Conversions**
+Use `errors='ignore'` or `errors='coerce'` to handle invalid conversions.
+
+#### `errors='coerce'`
+Invalid parsing will result in `NaN`.
+
+```python
+data = {'A': ['1', 'two', '3']}
+df = pd.DataFrame(data)
+
+# Attempt conversion, invalid values become NaN
+df['A'] = df['A'].astype(float, errors='coerce')
+
+print(df)
+```
+
+**Output:**
+```
+     A
+0  1.0
+1  NaN
+2  3.0
+```
+
+#### `errors='ignore'`
+Ignore invalid conversions and leave the column unchanged.
+
+```python
+df['A'] = df['A'].astype(int, errors='ignore')
+print(df)
+```
+
+**Output:**
+The column remains unchanged.
+
+---
+
+### 7. **Convert to Datetime**
+Convert a column to `datetime`.
+
+```python
+data = {'A': ['2023-01-01', '2023-02-01', '2023-03-01']}
+df = pd.DataFrame(data)
+
+# Convert to datetime
+df['A'] = df['A'].astype('datetime64[ns]')
+
+print(df)
+print(df.dtypes)
+```
+
+**Output:**
+```
+           A
+0 2023-01-01
+1 2023-02-01
+2 2023-03-01
+A    datetime64[ns]
+dtype: object
+```
+
+---
+
+### 8. **Convert to Boolean**
+Convert a column to a boolean type.
+
+```python
+data = {'A': [1, 0, 1]}
+df = pd.DataFrame(data)
+
+# Convert to boolean
+df['A'] = df['A'].astype(bool)
+
+print(df)
+print(df.dtypes)
+```
+
+**Output:**
+```
+       A
+0   True
+1  False
+2   True
+A    bool
+dtype: object
+```
+
+---
